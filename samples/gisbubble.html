@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Zimmer und Preis pro QM</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="../dist/Chart.bundle.js"></script>
+    <style type="text/css">
+    canvas{
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="container" style="width: 75%;">
+        <canvas id="canvas"></canvas>
+    </div>
+    <script>
+        var DEFAULT_DATASET_SIZE = 7;
+
+        var addedCount = 0;
+
+        var randomScalingFactor = function() {
+            return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
+        };
+        var randomColorFactor = function() {
+            return Math.round(Math.random() * 255);
+        };
+        var randomColor = function() {
+            return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',.7)';
+        };
+
+        // start my code.
+        function includes (array, elem){
+            var isContained = false;
+            array.forEach(function (value){
+                isContained = isContained || elem === value;
+            });
+            return isContained;
+        }
+        var rooms = [3,2,4,4,4,3,2,4,2,4,2,3,3,6,3,3,3,3,4,2,3,5,3,3,4,3,2,2,2,4,3,6,2,3,6];
+        var pricesQM = [6,6.0301116334,6.2530532487,7.2199803589,7.3661787948,7.4264705882,8.5064739536,
+            8.6693548387,8.8000631214,8.9861751152,9.5,10.5555555556,11.2329157175,11.4832535885,11.7269300572,
+            12.1090022267,12.5000368433,12.5313534664,12.7485380117,13.3394664213,13.5869565217,14,14.4196782803,
+            15,15.1957022256,15.2001351123,15.9503246753,16.0714285714,16.1157024793,16.5413533835,17.470437018,20,
+            20.9906012233,22,22.9947101371];
+
+         // calculate avg of pricesQM according to quantity of rooms.
+
+        var roomQttySingle = [];
+        var roomsWithThatQtty = [];
+        var sumPriceAcc2RoomQtty = [];
+        var avgPriceAcc2RoomQtty = [];
+        var temp = 0;
+        var times = 0;
+           
+        rooms.forEach(function (roomNumb, key){
+            for (var i=0;i<pricesQM.length;i++){
+                if (!includes(roomQttySingle,roomNumb) && roomNumb === rooms[i]){
+                    temp += pricesQM[i];
+                    times++;
+                }
+            }
+            if (!includes(roomQttySingle,roomNumb)){
+                roomQttySingle.push(roomNumb);
+                roomsWithThatQtty.push(times);
+                sumPriceAcc2RoomQtty.push(temp);
+            }
+            temp = 0;
+            times = 0;
+        });
+
+        for (var i = 0; i<sumPriceAcc2RoomQtty.length;i++ ){
+            avgPriceAcc2RoomQtty[i] = sumPriceAcc2RoomQtty[i]/roomsWithThatQtty[i];
+        }
+        dataSet = [];
+        temp = {};
+        function only2Decimals(floatNumb){
+            var str = floatNumb.toFixed(3);
+            var numbAgain = str - 0;
+            return numbAgain;
+        }
+        for (var i=0;i<avgPriceAcc2RoomQtty.length;i++){
+            dataSet[i] = {};
+            dataSet[i].x = roomQttySingle[i]; // amount of rooms
+            dataSet[i].y = only2Decimals(avgPriceAcc2RoomQtty[i]); // avg price
+            dataSet[i].r = roomsWithThatQtty[i]; //quantity of apts with amount of rooms x
+        }
+        console.log(dataSet);
+
+        // end my code
+
+        var bubbleChartData = {
+            animation: {
+                duration: 10000
+            },
+            datasets: [{
+                label: "(Zimmer, Mittelpreis, Wohnungen mit dieser # Zimmer)",
+                backgroundColor: randomColor(),
+                data: dataSet
+            }]
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myChart = new Chart(ctx, {
+                type: 'bubble',
+                data: bubbleChartData,
+                options: {
+                    responsive: true,
+                    title:{
+                        display:true,
+                        text:'Relation zwischen Anzahl Zimmer, Preis pro QM und Anzahl Wohnungen mit dieser Anzahl Zimmer'
+                    },
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Mittelpreis pro m2'
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Anzahl Zimmer'
+                            }
+                        }]
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+
+</html>
