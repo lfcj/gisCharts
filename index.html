@@ -15,81 +15,9 @@
 </head>
 
 <body>
-    <div id="canvas-holder" style="width:75%">
-        <canvas id="chart-area" />
+    <div id="container" style="width:75%">
+        <a href="/samples/gisdoughnut.html">Anzahl Wohnungen pro Bezirk in Erreichbarkeitsgebiet.</a>
     </div>
-    <script>
-    // my functions
-    function randNum() {
-        // random numb between 0  and 15
-        return Math.floor((Math.random() * 15)); 
-    }
-    function randomColor() {
-        var hexas = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
-        color = "#";
-        for (var i = 0;i<6;i++){
-            color += hexas[randNum()];
-        }
-        return color;
-    }
-
-    // given functions
-
-    var randomScalingFactor = function() {
-        return Math.round(Math.random() * 100);
-    };
-    var randomColorFactor = function() {
-        return Math.round(Math.random() * 255);
-    };
-    var randomColor = function(opacity) {
-        return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
-    };
-    var bezirke = [ "Reinickendorf", "Spandau", "Tempelhof-Schoeneberg", "Neukoelln", "Friedrichshain-Kreuzberg", "Mitte", "Pankow", "Charlottenburg-Wilmersdorf", "Treptow-Koepenick", "Zehlendorf" ];
-    var aptsProBezirk = [ 2, 3, 1, 3, 3, 10, 5, 6, 1, 1 ]; 
-    var backgroundColors = [
-                    "#F7464A",
-                    "#46BFBD",
-                    "#808000",
-                    "#FDB45C",
-                    "#949FB1",
-                    "#800080",
-                    "#008000",
-                    "#ffA500"
-                    ];
-    for (var i=0;i<2;i++){
-        backgroundColors.push(randomColor());
-    }
-    var config = {
-        type: 'doughnut',
-        data: {
-            datasets: [{
-                data: aptsProBezirk,
-                backgroundColor: backgroundColors,
-                label: 'Dataset 1'
-            }],
-            labels: bezirke
-        },
-        options: {
-            responsive: true,
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Anzahl Wohnungen pro Bezirk'
-            },
-            animation: {
-                animateScale: true,
-                animateRotate: true
-            }
-        }
-    };
-
-    window.onload = function() {
-        var ctx = document.getElementById("chart-area").getContext("2d");
-        window.myDoughnut = new Chart(ctx, config);
-    };
-    </script>
 </body>
 
 </html>
