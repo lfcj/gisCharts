@@ -6,18 +6,26 @@
     <script src="../dist/Chart.bundle.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <style>
+    body{
+           font-family: Arial, Helvetica, sans-serif;
+    }
     canvas {
         -moz-user-select: none;
         -webkit-user-select: none;
         -ms-user-select: none;
     }
+    h6{
+        margin-left: 30%;
+    }
     </style>
 </head>
 
 <body>
-    <div id="canvas-holder" style="width:75%">
+    <div id="canvas-holder" style="width:100%">
         <canvas id="chart-area" />
+        
     </div>
+    <h6>2015: Innerer Kreis; 2016: &Auml;u&szlig;erer Kreis</h6>
     <script>
     // my functions
     function randNum() {
@@ -44,8 +52,8 @@
     var randomColor = function(opacity) {
         return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
     };
-    var bezirke = [ "Reinickendorf", "Spandau", "Tempelhof-Schoeneberg", "Neukoelln", "Friedrichshain-Kreuzberg", "Mitte", "Pankow", "Charlottenburg-Wilmersdorf", "Treptow-Koepenick", "Zehlendorf" ];
-    var aptsProBezirk = [ 2, 3, 1, 3, 3, 10, 5, 6, 1, 1 ]; 
+    var bezirke = [ "Reinickendorf", "Spandau", "Tempelhof-Schoeneberg", "Neukoelln", "Friedrichshain-Kreuzberg", "Mitte", "Pankow", "Charlottenburg-Wilmersdorf", "Treptow-Koepenick", "Zehlendorf", "Lichtenberg" ];
+    var aptsProBezirk = [ 2, 3, 1, 3, 3, 10, 5, 6, 1, 1 ,0]; 
     var backgroundColors = [
                     "#F7464A",
                     "#46BFBD",
@@ -59,6 +67,7 @@
     for (var i=0;i<2;i++){
         backgroundColors.push(randomColor());
     }
+    var aptsProBezirk2 = [11,0,16,10,13,23,16,14,4,0,3];
     var config = {
         type: 'doughnut',
         data: {
@@ -66,6 +75,10 @@
                 data: aptsProBezirk,
                 backgroundColor: backgroundColors,
                 label: 'Dataset 1'
+            },{
+                data: aptsProBezirk2,
+                backgroundColor: backgroundColors,
+                label: 'Dataset 2' 
             }],
             labels: bezirke
         },
@@ -76,7 +89,7 @@
             },
             title: {
                 display: true,
-                text: 'Anzahl von Wohnungen pro Bezirk'
+                text: 'Anzahl von Wohnungen pro Bezirk.'
             },
             animation: {
                 animateScale: true,
@@ -88,6 +101,8 @@
     window.onload = function() {
         var ctx = document.getElementById("chart-area").getContext("2d");
         window.myDoughnut = new Chart(ctx, config);
+        // var ctx2 = document.getElementById("chart-area0").getContext("2d");
+        // window.myDoughnut2 = new Chart(ctx2, config2);
     };
     </script>
 </body>
