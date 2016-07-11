@@ -9,14 +9,18 @@
     body{
         font-family: Arial, Helvetica, sans-serif;
     }
+    h6{
+        margin-left: 10%;
+    }
     </style>
 </head>
 
 <body>
-    <div id="canvas-holder" style="width:40%">
+    <div id="canvas-holder" style="width:60%">
         <h4 style="margin-left:30%">AVG Preis pro m2 pro Bezirk</h4>
-        <canvas id="chart-area" width="250" height="250" />
+        <canvas id="chart-area"/>
     </div>
+    <h6>2015: Innerer Kreis; 2016: &Auml;u&szlig;erer Kreis</h6>
     <script>
     var randomScalingFactor = function() {
         return Math.round(Math.random() * 100);
@@ -71,17 +75,15 @@
         for (var i=0;i<howManytimes.length;i++){
             average[i] = sums[i]/howManytimes[i];
         }
-        // console.log(done);
+        console.log(done);
         // console.log(average);
+    var bezirke = [  "Reinickendorf", "Spandau", "Tempelhof-Schoeneberg", "Neukoelln", "Friedrichshain-Kreuzberg", "Mitte", "Pankow", "Charlottenburg-Wilmersdorf", "Treptow-Koepenick", "Stelitz-Zehlendorf", "Lichtenberg"];
+    average[10] = 0;    
+
+    var average2 = [7.525,0,8.575,9.901,10.378,10.439,9.23,9.95,8.3725,9.049,8.353];
 
     // end my code
-
-    var config = {
-        type: 'pie',
-        data: {
-        datasets: [{
-            data: average,
-            backgroundColor: [
+    var backgroundColors = [
                 "#F7464A",
                 randomColor(),
                 "#46BFBD",
@@ -92,18 +94,37 @@
                 randomColor(),
                 "#4D5360",
                 randomColor()
-            ],
+            ];
+
+    var config = {
+        type: 'pie',
+        data: {
+        datasets: [{
+            data: average2,
+            backgroundColor: backgroundColors,
+            label: "2015"
+        },{
+            data: average,
+            backgroundColor: backgroundColors,
+            label: "2016"
         }],
-            labels: done
+            labels: bezirke
         },
         options: {
             responsive: true
         }
     };
+    // config2 = config;
+    // config2.type = "line";
+    // config2.data.datasets[0].backgroundColor = "#F7464A";
+    // config2.data.datasets[1].backgroundColor = "#949FB1";
 
     window.onload = function() {
         var ctx = document.getElementById("chart-area").getContext("2d");
         window.myPie = new Chart(ctx, config);
+        // var ctx2 = document.getElementById("chart-line").getContext("2d");
+        // window.myOtherLine = newChart(ctw2, config2);
+
     };
     </script>
 </body>

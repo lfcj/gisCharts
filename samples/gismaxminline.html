@@ -26,17 +26,27 @@
 
 <body>
     <div style="width:75%;">
+        <canvas id="canvas2015"></canvas>
+    </div id="max">
+    <div>
+    <h1>Wohnung mit maximalem Preis 2015</h1>
+    <h3>Mitte, Berlin (genauere Adresse wurde nicht gegeben)</h3>
+    </div>
+    </div>
+    <div id="min">
+    <h1>Wohnung mit minimalem Preis 2015</h1>
+    <h3>Reinickendorf, Berlin (genauere Adresse wurde nicht gegeben)</h3>
+    </div>
+    <div style="width:75%;">
         <canvas id="canvas"></canvas>
     </div>
-    <br>
-    <br>
-    <div id="min">
-    <h1>Wohnung mit minimalem Preis</h1>
+    <div id="max">
+    <h1>Wohnung mit maximalem Preis 2016</h1>
     <h3>Charlottenburg-Wilmersdorf, Sybelstrasse 5, 10629 Berlin</h3>
     <div id="minHouse" style="width:500px;height:380px;"></div>
     </div>
-    <div id="max">
-    <h1>Wohnung mit maximalem Preis</h1>
+    <div id="min">
+    <h1>Wohnung mit minimalem Preis 2016</h1>
     <h3>Reinickendorf, Avenue Charles de Gaulle 13A, 13469 Berlin</h3>
     <div id="maxHouse" style="width:500px;height:380px;"></div>
     </div>
@@ -62,12 +72,14 @@
         12.1090022267,12.5000368433,12.5313534664,12.7485380117,13.3394664213,13.5869565217,14,14.4196782803,
         15,15.1957022256,15.2001351123,15.9503246753,16.0714285714,16.1157024793,16.5413533835,17.470437018,20,
         20.9906012233,22,22.9947101371];
+        var bezirke2015 = ['Reinickendorf','Pankow','Pankow','Pankow','Reinickendorf','Treptow-Koepenick','Treptow-Koepenick','Neukoelln','Mitte','Reinickendorf','Tempelhof-Schöneberg','Neukölln','Tempelhof-Schöneberg','Neukölln','Mitte','Reinickendorf','Mitte','Steglitz-Zehlendorf','Mitte','Pankow','Reinickendorf','Tempelhof-Schöneberg','Tempelhof-Schöneberg','Reinickendorf','Tempelhof-Schöneberg','Reinickendorf','Steglitz-Zehlendorf','Tempelhof-Schöneberg','Steglitz-Zehlendorf','Mitte','Pankow','Mitte','Reinickendorf','Steglitz-Zehlendorf','Lichtenberg','Steglitz-Zehlendorf','Tempelhof-Schöneberg','Charlottenburg-Wilmersdorf','Friedrichshain-Kreuzberg','Lichtenberg','Tempelhof-Schöneberg','Friedrichshain-Kreuzberg','Mitte','Pankow','Steglitz-Zehlendorf','Pankow','Tempelhof-Schöneberg','Tempelhof-Schöneberg','Reinickendorf','Neukölln','Steglitz-Zehlendorf','Friedrichshain-Kreuzberg','Charlottenburg-Wilmersdorf','Steglitz-Zehlendorf','Tempelhof-Schöneberg','Steglitz-Zehlendorf','Charlottenburg-Wilmersdorf','Tempelhof-Schöneberg','Friedrichshain-Kreuzberg','Charlottenburg-Wilmersdorf','Friedrichshain-Kreuzberg','Reinickendorf','Lichtenberg','Mitte','Mitte','Pankow','Steglitz-Zehlendorf','Mitte','Charlottenburg-Wilmersdorf','Charlottenburg-Wilmersdorf','Charlottenburg-Wilmersdorf','Steglitz-Zehlendorf','Neukölln','Tempelhof-Schöneberg','Charlottenburg-Wilmersdorf','Tempelhof-Schöneberg','Treptow-Köpenick','Charlottenburg-Wilmersdorf','Friedrichshain-Kreuzberg','Mitte','Mitte','Charlottenburg-Wilmersdorf','Charlottenburg-Wilmersdorf','Pankow','Treptow-Köpenick','Charlottenburg-Wilmersdorf','Friedrichshain-Kreuzberg','Neukölln','Friedrichshain-Kreuzberg','Steglitz-Zehlendorf','Neukölln','Mitte','Mitte','Pankow','Pankow','Reinickendorf','Pankow','Pankow','Friedrichshain-Kreuzberg','Neukölln','Friedrichshain-Kreuzberg','Steglitz-Zehlendorf','Mitte','Tempelhof-Schöneberg','Friedrichshain-Kreuzberg','Mitte','Tempelhof-Schöneberg','Charlottenburg-Wilmersdorf','Friedrichshain-Kreuzberg','Charlottenburg-Wilmersdorf','Mitte','Pankow','Pankow','Pankow','Steglitz-Zehlendorf','Mitte','Neukölln','Mitte','Mitte','Neukölln','Mitte','Friedrichshain-Kreuzberg','Mitte','Mitte'];
+        var pricesQM2015 = [5,5.61,5.75,6,6,6.5,6.5,6.71,6.71,6.75,6.89,7,7,7,7,7,7.01,7.04,7.05,7.05,7.07,7.11,7.22,7.25,7.33,7.33,7.44,7.47,7.5,7.51,7.55,7.73,7.83,7.91,7.96,8,8,8,8,8,8,8,8,8,8.01,8.01,8.22,8.38,8.54,8.58,8.62,8.67,8.84,9,9,9,9,9,9,9,9,9,9.1,9.2,9.25,9.38,9.51,9.62,9.7,9.95,9.97,10,10,10,10,10,10,10,10,10,10.11,10.14,10.14,10.32,10.49,10.61,10.8,10.9,10.99,11,11,11,11,11,11,11,11,11.03,11.2,11.28,11.38,11.45,11.55,11.58,11.88,11.88,12,12,12,12,12,12,12,12,12.2,12.56,13,13,13,13.54,14,14,15,15.91];
         var config = {
             type: 'line',
             data: {
                 labels: bezirke,
                 datasets: [ {
-                    label: "PreisQM jeder Wohnung mit Bezirk",
+                    label: "PreisQM jeder Wohnung mit Bezirk 2016",
                     data: pricesQM,
                 }]
             },
@@ -75,7 +87,51 @@
                 responsive: true,
                 title:{
                     display:true,
-                    text:'Preis pro m2 jeder Wohnung mit Bezirk'
+                    text:'Preis pro m2 jeder Wohnung mit Bezirk 2016'
+                },
+                tooltips: {
+                    mode: 'label',
+                },
+                hover: {
+                    mode: 'dataset'
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Bezirk'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Preis pro m2'
+                        },
+                        ticks: {
+                            suggestedMin: 0,
+                            suggestedMax: 25,
+                        }
+                    }]
+                }
+            }
+        };
+
+         var config2015 = {
+            type: 'line',
+            data: {
+                labels: bezirke2015,
+                datasets: [ {
+                    label: "PreisQM jeder Wohnung mit Bezirk 2015",
+                    data: pricesQM2015,
+                }]
+            },
+            options: {
+                responsive: true,
+                title:{
+                    display:true,
+                    text:'Preis pro m2 jeder Wohnung mit Bezirk 2015'
                 },
                 tooltips: {
                     mode: 'label',
@@ -117,6 +173,8 @@
         window.onload = function() {
             var ctx = document.getElementById("canvas").getContext("2d");
             window.myLine = new Chart(ctx, config);
+            var ctx2015 = document.getElementById("canvas2015").getContext("2d");
+            window.myOtherLine = new Chart(ctx2015, config2015);
         };
 
         // GOOGLE MAPS

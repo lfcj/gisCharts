@@ -16,9 +16,12 @@
 
 <body>
     <div id="container" style="width: 75%;">
+        <canvas id="canvas2015"></canvas>
+        <h1>2015: Anscheinlich ist eine 5 Zimmer Wohnung die g&uuml;nstigste Wahl</h1>
         <canvas id="canvas"></canvas>
-        <h1>Anscheinlich ist eine 4 Zimmer Wohnung die g&uuml;nstigste Wahl</h1>
+        h1>2014: Anscheinlich ist eine 4 Zimmer Wohnung die g&uuml;nstigste Wahl</h1>
     </div>
+
     <script>
         var DEFAULT_DATASET_SIZE = 7;
 
@@ -90,7 +93,46 @@
             dataSet[i].y = only2Decimals(avgPriceAcc2RoomQtty[i]); // avg price
             dataSet[i].r = roomsWithThatQtty[i]; //quantity of apts with amount of rooms x
         }
-        console.log(dataSet);
+
+        var rooms2015 = [1,3,2,2,2,2,2,2,2,3,2,2,2,3,2,2,5,5,2.5,3,3,3.5,2,2,3,2,2,2,2,1,2,1,2,2,2,2,3,2,2,2,2,2,2,2,2,2,2,4,3,2,2,2,1,2,2,2,2,2,2,3,2,3,3,3,2,2,2,3,3,2,2,2,2,2,3,2,4,2,2,2,2,2,4,2,2,2,2,2,1,1,2,2,1,2,2,2,2,2,3,2,2,2,3,2,2,2,2,2,2,2,2,2,2,3,2,2,2,2,2,2,2,2,2,2];
+var pricesQM2015 = [5,5.61,5.75,6,6,6.5,6.5,6.71,6.71,6.75,6.89,7,7,7,7,7,7.01,7.04,7.05,7.05,7.07,7.11,7.22,7.25,7.33,7.33,7.44,7.47,7.5,7.51,7.55,7.73,7.83,7.91,7.96,8,8,8,8,8,8,8,8,8,8.01,8.01,8.22,8.38,8.54,8.58,8.62,8.67,8.84,9,9,9,9,9,9,9,9,9,9.1,9.2,9.25,9.38,9.51,9.62,9.7,9.95,9.97,10,10,10,10,10,10,10,10,10,10.11,10.14,10.14,10.32,10.49,10.61,10.8,10.9,10.99,11,11,11,11,11,11,11,11,11.03,11.2,11.28,11.38,11.45,11.55,11.58,11.88,11.88,12,12,12,12,12,12,12,12,12.2,12.56,13,13,13,13.54,14,14,15,15.91];
+
+// calculate avg of pricesQM according to quantity of rooms.
+
+        var roomQttySingle2015 = [];
+        var roomsWithThatQtty2015 = [];
+        var sumPriceAcc2RoomQtty2015 = [];
+        var avgPriceAcc2RoomQtty2015 = [];
+        var temp2015 = 0;
+        var times2015 = 0;
+           
+        rooms2015.forEach(function (roomNumb, key){
+            for (var i=0;i<pricesQM2015.length;i++){
+                if (!includes(roomQttySingle2015,roomNumb) && roomNumb === rooms2015[i]){
+                    temp2015 += pricesQM2015[i];
+                    times2015++;
+                }
+            }
+            if (!includes(roomQttySingle2015,roomNumb)){
+                roomQttySingle2015.push(roomNumb);
+                roomsWithThatQtty2015.push(times2015);
+                sumPriceAcc2RoomQtty2015.push(temp2015);
+            }
+            temp2015 = 0;
+            times2015 = 0;
+        });
+
+        for (var i = 0; i<sumPriceAcc2RoomQtty2015.length;i++ ){
+            avgPriceAcc2RoomQtty2015[i] = sumPriceAcc2RoomQtty2015[i]/roomsWithThatQtty2015[i];
+        }
+        dataSet2015 = [];
+   
+        for (var i=0;i<avgPriceAcc2RoomQtty2015.length;i++){
+            dataSet2015[i] = {};
+            dataSet2015[i].x = roomQttySingle2015[i]; // amount of rooms
+            dataSet2015[i].y = avgPriceAcc2RoomQtty2015[i]; // avg price
+            dataSet2015[i].r = roomsWithThatQtty2015[i]; //quantity of apts with amount of rooms x
+        }
 
         // end my code
 
@@ -105,16 +147,53 @@
             }]
         };
 
+        var bubbleChartData2 = {
+            animation: {
+                duration: 10000
+            },
+            datasets: [{
+                label: "(Zimmer, Mittelpreis, Wohnungen mit dieser # Zimmer)",
+                backgroundColor: randomColor(),
+                data: dataSet2015
+            }]
+        };
+
         window.onload = function() {
+            var ctx2 = document.getElementById("canvas2015").getContext("2d");
+            window.myChart2015 = new Chart(ctx2, {
+                type: 'bubble',
+                data: bubbleChartData2,
+                options: {
+                    responsive: true,
+                    title:{
+                        display:true,
+                        text:'Relation zwischen Anzahl Zimmer, Preis pro QM und Anzahl Wohnungen mit dieser Anzahl Zimmer 2015'
+                    },
+                    scales: {
+                        yAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Mittelpreis pro m2'
+                            }
+                        }],
+                        xAxes: [{
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Anzahl Zimmer'
+                            }
+                        }]
+                    }
+                }
+            });
             var ctx = document.getElementById("canvas").getContext("2d");
-            window.myChart = new Chart(ctx, {
+               window.myChart2016 = new Chart(ctx, {
                 type: 'bubble',
                 data: bubbleChartData,
                 options: {
                     responsive: true,
                     title:{
                         display:true,
-                        text:'Relation zwischen Anzahl Zimmer, Preis pro QM und Anzahl Wohnungen mit dieser Anzahl Zimmer'
+                        text:'Relation zwischen Anzahl Zimmer, Preis pro QM und Anzahl Wohnungen mit dieser Anzahl Zimmer 2016'
                     },
                     scales: {
                         yAxes: [{
@@ -133,6 +212,8 @@
                 }
             });
         };
+
+
     </script>
 </body>
 
